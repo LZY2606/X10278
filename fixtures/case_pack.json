@@ -1,0 +1,32 @@
+{
+  "title": "Matroska 时码庭：cluster、cue 索引与多轨帧时间证据",
+  "fixture": "case_alpha.webm",
+  "narrative": [
+    "1 基线导入：EBML 元素偏移、未知长度、track 参数、cluster/block 时码、discard padding、cue 和原字节范围均保留",
+    "2 参数修订：TimecodeScale 1ms -> 2ms",
+    "3 源数据改动：修复 cluster:2 的 lacing 字节（局部依赖重算）",
+    "4 人工决定冲突：两位审阅者对 cue 错指作出相反判定，系统保留两个分支"
+  ],
+  "boundary_conditions": [
+    "unknown_size",
+    "rel_overflow",
+    "lacing_corrupt",
+    "discard_padding",
+    "cue_mispoint",
+    "track_timebase_divergence",
+    "cluster_gap"
+  ],
+  "rules": {
+    "signed-relative-timecode": "relative timecode 按有符号位宽解释",
+    "lacing-no-guess": "lacing 损坏时不猜帧边界",
+    "cue-is-evidence": "cue 是索引证据而不是时间真值",
+    "no-file-order-alignment": "多轨不按文件顺序强对齐"
+  },
+  "units": {
+    "timecode": "TimecodeScale units",
+    "absolute_time": "ns",
+    "default_duration": "ns",
+    "discard_padding": "TimecodeScale units",
+    "offsets": "byte offset"
+  }
+}
