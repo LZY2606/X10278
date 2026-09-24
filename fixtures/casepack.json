@@ -1,0 +1,36 @@
+{
+  "case": "Matroska 时码庭：cluster、cue 索引与多轨帧时间证据",
+  "story": "媒体工程团队导入 Matroska/WebM 结构和帧摘要，审查 Segment/Cluster、TimecodeScale、BlockGroup、lacing 与 cue 的时间对应。",
+  "variants": {
+    "baseline": "基线：偏移/未知长度/轨道参数/时码/discard padding/cue/字节范围全保留",
+    "unknown_length": "未知长度：Segment 与 Cluster#1 使用 unknown size",
+    "rel_tc_overflow": "relative timecode 溢出：有符号 int16 相对时码使绝对时码为负",
+    "lacing_corrupt": "lacing 损坏：xiph/ebml lace 尺寸与负载不符",
+    "discard_padding": "discard padding：超过块时长与负值两种情况",
+    "cue_mispoint": "cue 错指：CuePoint 指向错误的 cluster 偏移/时间",
+    "track_timebase": "轨道时基差异：Track#2 TrackTimecodeScale=0.5",
+    "cluster_gap": "中途 cluster 缺口：Cluster#2 时码跳到 5000"
+  },
+  "steps": [
+    {
+      "id": "import",
+      "label": "导入基线案例包"
+    },
+    {
+      "id": "param_revision",
+      "label": "参数修订：cue 容差 5 -> 50 单位"
+    },
+    {
+      "id": "source_change",
+      "label": "局部源数据改动：修正 CuePoint#2 时间"
+    },
+    {
+      "id": "conflict",
+      "label": "两位审阅者对 cue:1 裁定互相冲突"
+    },
+    {
+      "id": "replay",
+      "label": "重放：依次经过七种边界情形"
+    }
+  ]
+}
