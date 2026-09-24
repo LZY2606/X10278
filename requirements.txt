@@ -1,0 +1,6 @@
+fastapi>=0.104
+uvicorn>=0.24
+numpy>=1.26
+pydantic>=2.5
+httpx>=0.25
+pytest>=8.0

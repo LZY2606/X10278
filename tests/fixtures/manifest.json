@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "name": "baseline",
+      "description": "Two-track WebM: unknown-size segment, video+audio, BlockGroup DiscardPadding, Xiph-capable blocks, cues.",
+      "file": "baseline.mkv",
+      "byte_length": 320,
+      "markers": {
+        "cluster_a_pos": 154,
+        "cluster_b_pos": 200
+      },
+      "expected": {
+        "tracks": 2,
+        "clusters": 2,
+        "cues": 2,
+        "unknown_lengths_min": 1,
+        "discard_padding_blocks": 1
+      }
+    },
+    {
+      "name": "unknown_length",
+      "description": "Unknown-size Segment AND unknown-size Cluster.",
+      "file": "unknown_length.mkv",
+      "byte_length": 279,
+      "markers": {},
+      "expected": {
+        "unknown_lengths_min": 2,
+        "clusters": 2
+      }
+    },
+    {
+      "name": "tc_overflow",
+      "description": "Relative timecode at signed int16 extreme (-1/0xFFFF).",
+      "file": "tc_overflow.mkv",
+      "byte_length": 267,
+      "markers": {},
+      "expected": {
+        "overflow_blocks_min": 1
+      }
+    },
+    {
+      "name": "lacing_corrupt",
+      "description": "Xiph lacing metadata overruns payload: boundaries not guessed.",
+      "file": "lacing_corrupt.mkv",
+      "byte_length": 265,
+      "markers": {},
+      "expected": {
+        "corrupt_blocks_min": 1
+      }
+    },
+    {
+      "name": "discard_padding",
+      "description": "Negative DiscardPadding (trim end), evidence retained per block.",
+      "file": "discard_padding.mkv",
+      "byte_length": 277,
+      "markers": {},
+      "expected": {
+        "discard_padding_blocks_min": 1
+      }
+    },
+    {
+      "name": "cue_mispoint",
+      "description": "Second cue points to a wrong byte position (index evidence only).",
+      "file": "cue_mispoint.mkv",
+      "byte_length": 311,
+      "markers": {
+        "cluster_b_pos": 200
+      },
+      "expected": {
+        "cue_mismatch_min": 1
+      }
+    },
+    {
+      "name": "track_timebase",
+      "description": "Track 2 TrackTimecodeScale=0.5 with negative relative timecode: distinct per-track time base, not file-order aligned.",
+      "file": "track_timebase.mkv",
+      "byte_length": 291,
+      "markers": {},
+      "expected": {
+        "distinct_timebases": true
+      }
+    },
+    {
+      "name": "cluster_gap",
+      "description": "Cluster B jumps to tc=300ms producing a mid-stream gap.",
+      "file": "cluster_gap.mkv",
+      "byte_length": 280,
+      "markers": {},
+      "expected": {
+        "gaps_min": 1
+      }
+    }
+  ]
+}
