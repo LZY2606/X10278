@@ -1,0 +1,94 @@
+{
+  "name": "Matroska 时码庭：cluster、cue 索引与多轨帧时间证据",
+  "doc_type": "matroska",
+  "baseline_sha256": "e3efc6c373b621a7ecd2d740ce7d890406ab8a17609661afe9ec7a8582de962e",
+  "baseline_size": 493,
+  "timecode_scale_ns": 1000000,
+  "units": {
+    "timecode_scale": "ns/tick",
+    "cluster_timecode": "tick",
+    "relative_timecode": "signed tick @2-byte field width",
+    "cue_time": "tick (segment scale)",
+    "discard_padding": "ns",
+    "default_duration": "ns",
+    "byte_range": "absolute file byte offset"
+  },
+  "landmarks": {
+    "segment_size_pos": 44,
+    "segment_data_start": 48,
+    "timecode_scale": {
+      "size_pos": 56,
+      "data_start": 57,
+      "data_end": 60
+    },
+    "clusters": [
+      {
+        "timecode": 0,
+        "start": 178,
+        "data_start": 183,
+        "data_end": 277,
+        "size_pos": 182
+      },
+      {
+        "timecode": 1000,
+        "start": 277,
+        "data_start": 282,
+        "data_end": 349,
+        "size_pos": 281
+      },
+      {
+        "timecode": 2000,
+        "start": 349,
+        "data_start": 354,
+        "data_end": 421,
+        "size_pos": 353
+      }
+    ],
+    "first_audio_block": {
+      "start": 202,
+      "size_pos": 203,
+      "data_start": 204,
+      "data_end": 270
+    },
+    "discard_padding": {
+      "data_start": 273,
+      "data_end": 277
+    },
+    "first_cue_cluster_position": {
+      "data_start": 438,
+      "data_end": 439,
+      "size_pos": 437
+    },
+    "third_cluster_timecode_elem": {
+      "data_start": 356,
+      "data_end": 358,
+      "size_pos": 355
+    },
+    "simple_blocks": [
+      {
+        "data_start": 188
+      },
+      {
+        "data_start": 288
+      },
+      {
+        "data_start": 360
+      }
+    ]
+  },
+  "narrative_steps": [
+    "import baseline and verify every raw coordinate is retained",
+    "revise TimecodeScale parameter (local, affects time projections)",
+    "mutate one direct source and inspect damage containment",
+    "two reviewers make conflicting decisions on the same version"
+  ],
+  "mutations": {
+    "unknown_length": "segment size bytes rewritten to all-ones unknown length",
+    "relative_tc_overflow": "video SimpleBlock relative timecode set to 0x7FFF raw",
+    "lacing_corrupt": "first audio lace size table forced beyond payload",
+    "discard_padding": "DiscardPadding rewritten to a large negative value",
+    "cue_mispoint": "first CueClusterPosition points into cluster payload",
+    "track_timebase_divergence": "source annotation: audio track scale differs (parameter decision)",
+    "cluster_gap": "cluster 3 timecode jumps from 2000 to 9000 ticks"
+  }
+}
