@@ -1,0 +1,28 @@
+{
+  "case": "Matroska 时码庭:cluster、cue 索引与多轨帧时间证据",
+  "fixture": "fixtures/court_case.webm",
+  "edge_cases": [
+    "unknown_length",
+    "signed_relative_timecode",
+    "lacing_corrupt",
+    "discard_padding",
+    "cue_mispoint",
+    "track_timebase_differ",
+    "cluster_gap"
+  ],
+  "narrative": [
+    "v1 初始导入:EBML 偏移/未知长度/track 参数/block 时码/discard padding/cue/原字节范围全保留",
+    "v2 参数修订:cue 容差 1ms→5ms(局部重算)",
+    "v3 源数据改动:修补错指 cue 的 CueTime 字节(时间线复用)",
+    "v4/v5 冲突人工决定:接受损坏诊断 vs 排除 cluster 2(未选候选保留)"
+  ],
+  "rules": [
+    "EBML 元素长度未知时延伸至父元素末尾,原字节范围保留",
+    "relative timecode 按有符号位宽解释(int16),溢出回绕为负值是合法候选",
+    "lacing 损坏时不猜帧边界,帧区原字节保留,帧时间标记 unknown",
+    "DiscardPadding 单位 ns,有符号,只影响帧尾裁剪,不改帧起点",
+    "cue 是索引证据而不是时间真值,错指只产生诊断",
+    "轨道时基差异经 TrackTimecodeScale 规范化,多轨不按文件顺序强对齐",
+    "中途 cluster 缺口只标记区间,不插值不补帧"
+  ]
+}
